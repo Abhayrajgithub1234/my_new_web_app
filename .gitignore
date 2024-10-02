@@ -1,1 +1,27 @@
-#FOLDER/
+# Virtual Environment
+venv/
+
+# Compiled Python files
+__pycache__/
+*.pyc
+
+# Datasets
+dataset/
+
+# Model files
+model.h5
+models/
+
+# Logs
+*.log
+
+# Environment files
+.env
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# IDE specific files
+.vscode/
+.idea/
