@@ -12,7 +12,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Load the pre-trained model
-model = tf.keras.models.load_model("leaf_classifier.h5")
+model = tf.keras.models.load_model("model/leaf_classifier.h5")
 
 # Define the categories
 categories = ["Dasana", "Kepula", "Parijata", "Surali"]
