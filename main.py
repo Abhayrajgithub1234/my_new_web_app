@@ -3,15 +3,14 @@ from werkzeug.utils import secure_filename
 import os
 import cv2
 import numpy as np
-import tensorflow as tf
 import joblib
-from screctKey import key  # Ensure the import is correct
 from skimage.feature import hog
 from skimage import feature
+from screctKey import key  # Ensure the import is correct
 
 # Flask setup
 app = Flask(__name__)
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = 'static/uploads'  # Ensure the path is correct
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = key
@@ -21,7 +20,7 @@ if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
 # Load the pre-trained model
-model = joblib.load("leaf_classifier_model.pkl")
+model = joblib.load("leaf_classifier_model_with_unknowns.pkl")
 
 # Define the categories
 categories = ["Dasana", "Kepula", "Parijata", "Surali"]
@@ -30,7 +29,6 @@ categories = ["Dasana", "Kepula", "Parijata", "Surali"]
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# Classify uploaded image using the model
 # Feature extraction methods
 def extract_hog_feature(img):
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -46,7 +44,7 @@ def extract_lbp_feature(img):
     return hist
 
 # Image classification function
-def classifyIimage(filename):
+def classify_image(filename):
     img_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     img = cv2.imread(img_path)
     img_resized = cv2.resize(img, (64, 64))
@@ -60,8 +58,7 @@ def classifyIimage(filename):
 
     # Predict the category
     prediction = model.predict(combined_features)
-    print(prediction)
-    if (prediction[0]<0 or prediction[0]>len(categories)-1):
+    if (prediction[0] < 0 or prediction[0] > len(categories) - 1):
         return "Match Not found"
     return categories[prediction[0]]
 
@@ -97,8 +94,8 @@ def edit():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             
             # Classify the uploaded image
-            classification_result = classifyIimage(filename)
-            return render_template("result.html", result=classification_result)
+            classification_result = classify_image(filename)
+            return render_template("result.html", result=classification_result, image_file=filename)
         
     return redirect(url_for('home'))
 
@@ -109,4 +106,4 @@ def result():
 
 # Run the app
 if __name__ == "__main__":
-    app.run(debug=True,port = 5001)
+    app.run(debug=True, port=5001)

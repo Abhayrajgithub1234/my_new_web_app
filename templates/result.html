@@ -4,12 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Classification Result</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom right, #4CAF50, #8BC34A);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333333;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: #555555;
+            margin: 20px 0;
+        }
+
+        .btn-custom {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+            color: white;
+            font-size: 1rem;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn-custom:hover {
+            background-color: #388E3C;
+            border-color: #388E3C;
+        }
+
+        .uploaded-image {
+            margin-top: 20px;
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            position: absolute;
+            bottom: 20px;
+            text-align: center;
+            width: 100%;
+            color: #f0f0f0;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Classification Result</h1>
-        <p>{{ result }}</p>
-        <a href="{{ url_for('home') }}">Upload Another Image</a>
+        <h1>Image Classification Result</h1>
+        <!-- Display the result dynamically -->
+        <p class="lead"><strong>Prediction:</strong> {{ result }}</p>
+        
+        <!-- Display the uploaded image -->
+        <img src="{{ url_for('static', filename=image_path) }}" alt="Uploaded Image" class="uploaded-image">
+
+        <!-- Call-to-action button to go back -->
+        <a href="{{ url_for('home') }}" class="btn btn-custom">Upload Another Image</a>
     </div>
+    
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 - Leaf Classification Model | All Rights Reserved</p>
+    </footer>
+
+    <!-- Bootstrap JS (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
