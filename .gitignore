@@ -25,3 +25,5 @@ Thumbs.db
 # IDE specific files
 .vscode/
 .idea/
+
+screctKey.py
